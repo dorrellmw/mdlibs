@@ -448,9 +448,9 @@ int readDihedrals(FILE * psf, struct psf * p) {
     int numread = 0;
     numread = sscanf(buffer,"%d %d %d %d %d %d %d %d",
         &p->dihedrals[n].a,&p->dihedrals[n].b,
-	&p->dihedrals[n].c,&p->dihedrals[n].d,
+        &p->dihedrals[n].c,&p->dihedrals[n].d,
         &p->dihedrals[n+1].a,&p->dihedrals[n+1].b,
-	&p->dihedrals[n+1].c,&p->dihedrals[n+1].d);
+        &p->dihedrals[n+1].c,&p->dihedrals[n+1].d);
     for(int k=0; k<numread/4; k++) {
       p->dihedrals[n+k].a--;
       p->dihedrals[n+k].b--;
@@ -510,9 +510,9 @@ int readImpropers(FILE * psf, struct psf * p) {
     int numread = 0;
     numread = sscanf(buffer,"%d %d %d %d %d %d %d %d",
         &p->impropers[n].a,&p->impropers[n].b,
-	&p->impropers[n].c,&p->impropers[n].d,
+        &p->impropers[n].c,&p->impropers[n].d,
         &p->impropers[n+1].a,&p->impropers[n+1].b,
-	&p->impropers[n+1].c,&p->impropers[n+1].d);
+        &p->impropers[n+1].c,&p->impropers[n+1].d);
     for(int k=0; k<numread/4; k++) {
       p->impropers[n+k].a--;
       p->impropers[n+k].b--;
