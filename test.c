@@ -85,8 +85,11 @@ int main(int argc, const char* argv[]) {
       printf("Number of angles: %d\n",p.ntheta);
       printf("Sample angles for atom %d:\n", atomnum);
       for(int i=0; i<p.ntheta; i++) {
-        if(p.angles[i].a == atomnum || p.angles[i].b == atomnum || p.angles[i].c == atomnum)
-          printf("  %d -- %d -- %d\n", p.angles[i].a,p.angles[i].b,p.angles[i].c);
+        if(p.angles[i].a == atomnum || 
+	   p.angles[i].b == atomnum || 
+	   p.angles[i].c == atomnum)
+          printf("  %d -- %d -- %d\n",
+	    p.angles[i].a,p.angles[i].b,p.angles[i].c);
       }
 
       printf("\n");
@@ -99,20 +102,23 @@ int main(int argc, const char* argv[]) {
       for(int i=0; i<p.nphi; i++) {
         if(p.dihedrals[i].a == atomnum || p.dihedrals[i].b == atomnum ||
             p.dihedrals[i].c == atomnum || p.dihedrals[i].d == atomnum)
-          printf("  %d -- %d -- %d -- %d\n", p.dihedrals[i].a,p.dihedrals[i].b,p.dihedrals[i].c,p.dihedrals[i].d);
+          printf("  %d -- %d -- %d -- %d\n", p.dihedrals[i].a,p.dihedrals[i].b,
+	                                     p.dihedrals[i].c,p.dihedrals[i].d);
       }
 
       printf("\n");
     }
 
-    printf("Improper dihedral information %s\n",p.nimphi==-1?"not found":"found");
+    printf("Improper dihedral information %s\n",
+      p.nimphi==-1?"not found":"found");
     if(p.nimphi!=-1) {
       printf("Number of impropers: %d\n",p.nimphi);
       printf("Sample impropers for atom %d:\n", atomnum);
       for(int i=0; i<p.nimphi; i++) {
         if(p.impropers[i].a == atomnum || p.impropers[i].b == atomnum ||
             p.impropers[i].c == atomnum || p.impropers[i].d == atomnum)
-          printf("  %d -- %d -- %d -- %d\n", p.impropers[i].a,p.impropers[i].b,p.impropers[i].c,p.impropers[i].d);
+          printf("  %d -- %d -- %d -- %d\n", p.impropers[i].a,p.impropers[i].b,
+	                                     p.impropers[i].c,p.impropers[i].d);
       }
     }
   }
