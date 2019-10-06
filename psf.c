@@ -48,7 +48,8 @@ int readTitles(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
-  p->ntitle = readBang(psf, "!NTITLE"); // Read number of title lines from section header
+  // Read number of title lines from section header
+  p->ntitle = readBang(psf, "!NTITLE");
   if(p->ntitle == -1)
     return -1; // Error reading number of title lines from section header
 
@@ -150,7 +151,8 @@ int readAtoms(FILE * psf, struct psf * p) {
   char buffer[1024]; // For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
-  p->natom = readBang(psf, "!NATOM"); // Read number of atoms from section header
+  // Read number of atoms from section header
+  p->natom = readBang(psf, "!NATOM");
   if(p->natom == -1)
     return -1; // Error reading number of atoms from section header
 
@@ -197,31 +199,36 @@ int readAtoms(FILE * psf, struct psf * p) {
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of second field (segment name)
-    memcpy(p->atoms[n].seg,&buffer[offset],width); // copy string directly into to atom struct
+    // copy string directly into atom struct
+    memcpy(p->atoms[n].seg,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of third field (redisue identifier)
-    memcpy(p->atoms[n].resid,&buffer[offset],width); // copy string directly into to atom struct
+    // copy string directly into atom struct
+    memcpy(p->atoms[n].resid,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of fourth field (redisue name)
-    memcpy(p->atoms[n].res,&buffer[offset],width); // copy string directly into to atom struct
+    // copy string directly into atom struct
+    memcpy(p->atoms[n].res,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of fifth field (atom name)
-    memcpy(p->atoms[n].name,&buffer[offset],width); // copy string directly into to atom struct
+    // copy string directly into atom struct
+    memcpy(p->atoms[n].name,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=(p->sig.ext && p->sig.xplor)?6:4; // Width of sixth field (atom type)
-    memcpy(p->atoms[n].type,&buffer[offset],width); // copy string directly into to atom struct
+    // copy string directly into atom struct
+    memcpy(p->atoms[n].type,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
@@ -263,8 +270,9 @@ int readAtoms(FILE * psf, struct psf * p) {
 
       width=14; // Width of last field (atom scattering length "b")
       memset(substr,'\0',15); // Clear substring buffer
-      memcpy(substr,&buffer[offset],width); // isolate the scattering length substring
-      p->atoms[n].b=atof(substr); // write scattering length value to atom struct
+      // isolate the scattering length substring
+      memcpy(substr,&buffer[offset],width);
+      p->atoms[n].b=atof(substr); // write scattering length value to struct
       offset+=width;
     }
 
@@ -297,7 +305,8 @@ int readBonds(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
-  p->nbond = readBang(psf, "!NBOND"); // Read number of bonds from section header
+  // Read number of bonds from section header
+  p->nbond = readBang(psf, "!NBOND");
   if(p->nbond == -1)
     return -1; // Error reading number of bonds from section header
 
@@ -318,7 +327,9 @@ int readBonds(FILE * psf, struct psf * p) {
       break; // PSF is missing empty line between sections.
     }
     int numread = 0;
-    numread = sscanf(buffer,"%d %d %d %d %d %d %d %d",&p->bonds[n].a,&p->bonds[n].b,&p->bonds[n+1].a,&p->bonds[n+1].b,&p->bonds[n+2].a,&p->bonds[n+2].b,&p->bonds[n+3].a,&p->bonds[n+3].b);
+    numread = sscanf(buffer,"%d %d %d %d %d %d %d %d",&p->bonds[n].a,
+      &p->bonds[n].b,&p->bonds[n+1].a,&p->bonds[n+1].b,&p->bonds[n+2].a,
+      &p->bonds[n+2].b,&p->bonds[n+3].a,&p->bonds[n+3].b);
     for(int k=0; k<numread/2; k++) {
       p->bonds[n+k].a--;
       p->bonds[n+k].b--;
@@ -352,7 +363,8 @@ int readAngles(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
-  p->ntheta = readBang(psf, "!NTHETA"); // Read number of angles from section header
+  // Read number of angles from section header
+  p->ntheta = readBang(psf, "!NTHETA");
   if(p->ntheta == -1)
     return -1; // Error reading number of angles from section header
 
@@ -412,7 +424,8 @@ int readDihedrals(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
-  p->nphi = readBang(psf, "!NPHI"); // Read number of dihedrals from section header
+  // Read number of dihedrals from section header
+  p->nphi = readBang(psf, "!NPHI");
   if(p->nphi == -1)
     return -1; // Error reading number of dihedrals from section header
 
@@ -434,8 +447,10 @@ int readDihedrals(FILE * psf, struct psf * p) {
     }
     int numread = 0;
     numread = sscanf(buffer,"%d %d %d %d %d %d %d %d",
-        &p->dihedrals[n].a,&p->dihedrals[n].b,&p->dihedrals[n].c,&p->dihedrals[n].d,
-        &p->dihedrals[n+1].a,&p->dihedrals[n+1].b,&p->dihedrals[n+1].c,&p->dihedrals[n+1].d);
+        &p->dihedrals[n].a,&p->dihedrals[n].b,
+	&p->dihedrals[n].c,&p->dihedrals[n].d,
+        &p->dihedrals[n+1].a,&p->dihedrals[n+1].b,
+	&p->dihedrals[n+1].c,&p->dihedrals[n+1].d);
     for(int k=0; k<numread/4; k++) {
       p->dihedrals[n+k].a--;
       p->dihedrals[n+k].b--;
@@ -471,7 +486,8 @@ int readImpropers(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
-  p->nimphi = readBang(psf, "!NIMPHI"); // Read number of impropers from section header
+  // Read number of impropers from section header
+  p->nimphi = readBang(psf, "!NIMPHI");
   if(p->nimphi == -1)
     return -1; // Error reading number of impropers from section header
 
@@ -493,8 +509,10 @@ int readImpropers(FILE * psf, struct psf * p) {
     }
     int numread = 0;
     numread = sscanf(buffer,"%d %d %d %d %d %d %d %d",
-        &p->impropers[n].a,&p->impropers[n].b,&p->impropers[n].c,&p->impropers[n].d,
-        &p->impropers[n+1].a,&p->impropers[n+1].b,&p->impropers[n+1].c,&p->impropers[n+1].d);
+        &p->impropers[n].a,&p->impropers[n].b,
+	&p->impropers[n].c,&p->impropers[n].d,
+        &p->impropers[n+1].a,&p->impropers[n+1].b,
+	&p->impropers[n+1].c,&p->impropers[n+1].d);
     for(int k=0; k<numread/4; k++) {
       p->impropers[n+k].a--;
       p->impropers[n+k].b--;
