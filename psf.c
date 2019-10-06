@@ -34,6 +34,16 @@ int readBang(FILE * psf, char * bang) {
   return nbang;
 }
 
+/**
+ * Read title lines from a PSF
+ *
+ * Reads title lines from a PSF file and stores them in the provided psf struct.
+ * Also populates the ntitle field of the psf struct.
+ *
+ * @param[in] psf The PSF from which the title lines will be read.
+ * @param[in,out] p The struct into which the titles will be stored.
+ * @return The number of title lines read, or -1 if an error occurs.
+ */
 int readTitles(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
@@ -271,6 +281,18 @@ int readAtoms(FILE * psf, struct psf * p) {
   }
 }
 
+/**
+ * Read bond data from a PSF
+ *
+ * Reads bond information from a PSF file and stores it in the provided psf
+ * struct. Also populates the nbond field of the psf struct. Bonds are stored
+ * as atom pairs, where atoms have been assigned to fields 'a' and 'b' of the
+ * bond struct in the order they are listed in the PSF.
+ *
+ * @param[in] psf The PSF from which the bonds will be read.
+ * @param[in,out] p The struct into which the bond data will be stored.
+ * @return The number of bonds read, or -1 if an error occurs.
+ */
 int readBonds(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
@@ -314,6 +336,18 @@ int readBonds(FILE * psf, struct psf * p) {
   }
 }
 
+/**
+ * Read angle data from a PSF
+ *
+ * Reads angle information from a PSF file and stores it in the provided psf
+ * struct. Also populates the ntheta field of the psf struct. Angles are stored
+ * as atom triplets, where atoms have been assigned to fields 'a', 'b', and 'c'
+ * of the angle struct in the same order they are listed in the PSF.
+ *
+ * @param[in] psf The PSF from which the angles will be read.
+ * @param[in,out] p The struct into which the angle data will be stored.
+ * @return The number of angles read, or -1 if an error occurs.
+ */
 int readAngles(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
@@ -361,6 +395,19 @@ int readAngles(FILE * psf, struct psf * p) {
   }
 }
 
+/**
+ * Read dihedral data from a PSF
+ *
+ * Reads dihedral information from a PSF file and stores it in the provided psf
+ * struct. Also populates the nphi field of the psf struct. Dihedrals are stored
+ * as atom quadruplets, where atoms have been assigned to fields 'a', 'b', 'c',
+ * and 'd' of the dihedral struct in the same order that they are listed in the
+ * PSF.
+ *
+ * @param[in] psf The PSF from which the dihedrals will be read.
+ * @param[in,out] p The struct into which the dihedral data will be stored.
+ * @return The number of dihedrals read, or -1 if an error occurs.
+ */
 int readDihedrals(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
@@ -408,6 +455,18 @@ int readDihedrals(FILE * psf, struct psf * p) {
   }
 }
 
+/**
+ * Read improper dihedral data from a PSF
+ *
+ * Reads impropers from a PSF file and stores them in the provided psf struct.
+ * Also populates the nimphi field of the psf struct. Dihedrals are stored as
+ * atom quadruplets, where atoms have been assigned to fields 'a', 'b', 'c', and
+ * 'd' of the dihedral struct in the same order that they are listed in the PSF.
+ *
+ * @param[in] psf The PSF from which the impropers will be read.
+ * @param[in,out] p The struct into which the impropers will be stored.
+ * @return The number of impropers read, or -1 if an error occurs.
+ */
 int readImpropers(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
@@ -455,6 +514,26 @@ int readImpropers(FILE * psf, struct psf * p) {
   }
 }
 
+/**
+ * Read data from PSF
+ *
+ * Parses a PSF file and creates a psf struct containing the successfully
+ * parsed information, including flags from the PSF file signature and arrays of
+ * title lines, atom records, bonds, angles, dihedrals, and improper dihedrals,
+ * with associated counts for each array. Atom records are required, all other
+ * sections are optional.
+ *
+ * In the event of a read error, the relevant section will be ignored, but all
+ * other data will continue to be read and stored in the psf struct if possible.
+ * If a read error occurs during an essential section (such as the PSF file
+ * signature or the atom records), the entire PSF is invalidated by returning an
+ * empty struct with the 'valid' subfield of the 'sig' field set to 'false'.
+ * Before using the returned struct, one should verify that the 'valid'
+ * subfield is set to 'true'.
+ *
+ * @param[in] path The filesystem path to the PSF to be parsed.
+ * @return A psf struct containing all of the parsed information.
+ */
 struct psf readPSF(const char * path) {
 
   struct psf p = { .sig = { .valid = false,
@@ -530,6 +609,16 @@ struct psf readPSF(const char * path) {
   return p;
 }
 
+/**
+ * Frees the memory allocated for the psf struct
+ *
+ * Checks to make sure memory has not already been freed, and if not, frees the
+ * arrays used to store title lines, atoms, bonds, angles, dihedrals, and
+ * improper dihedrals. Once freed, it sets the pointers for each allocation to
+ * NULL to prevent double freeing.
+ *
+ * @param[in] p the psf struct to be freed.
+ */
 void freePSF(struct psf p) {
   void sfree(void ** ptr) {
     if(*ptr) {
