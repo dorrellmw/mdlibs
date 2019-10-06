@@ -644,6 +644,8 @@ void freePSF(struct psf p) {
       *ptr = NULL;
     }
   }
+  for(int i=0; i<p.ntitle; i++)
+    sfree((void **) &p.titles[i]);
   sfree((void **) &p.titles);
   sfree((void **) &p.atoms);
   sfree((void **) &p.bonds);
