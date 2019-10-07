@@ -8,7 +8,8 @@ int main(int argc, const char* argv[]) {
   struct pdb p = readPDB(argv[1]);
 
   if(p.cell.valid) {
-    printf("Unit cell information (%lfx%lfx%lf):\n",p.cell.a,p.cell.b,p.cell.c);
+    printf("Unit cell information ( %lf x %lf x %lf ):\n",
+        p.cell.a,p.cell.b,p.cell.c);
     printf("  alpha = %lf\n",p.cell.alpha);
     printf("  beta  = %lf\n",p.cell.beta);
     printf("  gamma = %lf\n",p.cell.gamma);
