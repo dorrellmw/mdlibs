@@ -1,5 +1,5 @@
 CFLAGS = -std=c99
 
-all: test
+all: testpsf
 
-test: test.c psf.c
+testpsf: testpsf.c psf.c
