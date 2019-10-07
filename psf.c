@@ -141,7 +141,7 @@ int readTitles(FILE * psf, struct psf * p) {
  *
  * The atom type is represented as a string if the XPLOR extension is used, 
  * otherwise it is represented as an integer. For simplicity, it is always 
- * stored in the atom struct as a string.
+ * stored in the psfatom struct as a string.
  *
  * @param[in] psf The PSF from which the atom data will be read.
  * @param[in,out] p The struct into which the atom data will be stored.
@@ -157,7 +157,7 @@ int readAtoms(FILE * psf, struct psf * p) {
     return -1; // Error reading number of atoms from section header
 
   // Allocate space for atom array
-  p->atoms = malloc(p->natom * sizeof(struct atom));
+  p->atoms = malloc(p->natom * sizeof(struct psfatom));
 
   int n = 0; // Track the number of atoms read so far
 
@@ -199,35 +199,35 @@ int readAtoms(FILE * psf, struct psf * p) {
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of second field (segment name)
-    // copy string directly into atom struct
+    // copy string directly into psfatom struct
     memcpy(p->atoms[n].seg,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of third field (redisue identifier)
-    // copy string directly into atom struct
+    // copy string directly into psfatom struct
     memcpy(p->atoms[n].resid,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of fourth field (redisue name)
-    // copy string directly into atom struct
+    // copy string directly into psfatom struct
     memcpy(p->atoms[n].res,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=p->sig.ext?8:4; // Width of fifth field (atom name)
-    // copy string directly into atom struct
+    // copy string directly into psfatom struct
     memcpy(p->atoms[n].name,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
     offset+=1; // Skip a space
 
     width=(p->sig.ext && p->sig.xplor)?6:4; // Width of sixth field (atom type)
-    // copy string directly into atom struct
+    // copy string directly into psfatom struct
     memcpy(p->atoms[n].type,&buffer[offset],width);
     offset+=width; // advance offset to next field
 
@@ -236,32 +236,32 @@ int readAtoms(FILE * psf, struct psf * p) {
     width=14; // Width of seventh field (atom charge)
     memset(substr,'\0',15); // Clear substring buffer
     memcpy(substr,&buffer[offset],width); // isolate the atom charge substring
-    p->atoms[n].charge=atof(substr); // write charge value to atom struct
+    p->atoms[n].charge=atof(substr); // write charge value to psfatom struct
     offset+=width; // advance offset to next field
 
     width=14; // Width of eighth field (atom mass)
     memset(substr,'\0',15); // Clear substring buffer
     memcpy(substr,&buffer[offset],width); // isolate the atom mass substring
-    p->atoms[n].mass=atof(substr); // write mass value to atom struct
+    p->atoms[n].mass=atof(substr); // write mass value to psfatom struct
     offset+=width; // advance offset to next field
 
     width=8; // Width of ninth field ("IMOVE")
     memset(substr,'\0',15); // Clear substring buffer
     memcpy(substr,&buffer[offset],width); // isolate the "IMOVE" substring
-    p->atoms[n].imove=atoi(substr); // write "IMOVE" to atom struct
+    p->atoms[n].imove=atoi(substr); // write "IMOVE" to psfatom struct
     offset+=width; // advance offset to next field
 
     if(p->sig.cmapcheq) {
       width=14; // Width of first CMAP/CHEQ field (CHEQ electronegativity)
       memset(substr,'\0',15); // Clear substring buffer
       memcpy(substr,&buffer[offset],width); // isolate the "ECH" substring
-      p->atoms[n].ech=atof(substr); // write charge value to atom struct
+      p->atoms[n].ech=atof(substr); // write charge value to psfatom struct
       offset+=width; // advance offset to next field
 
       width=14; // Width of second CMAP/CHEQ field (CHEQ hardness)
       memset(substr,'\0',15); // Clear substring buffer
       memcpy(substr,&buffer[offset],width); // isolate the "EHA" substring
-      p->atoms[n].eha=atof(substr); // write mass value to atom struct
+      p->atoms[n].eha=atof(substr); // write mass value to psfatom struct
       offset+=width; // advance offset to next field
     }
 

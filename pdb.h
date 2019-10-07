@@ -1,7 +1,7 @@
 #ifndef PDB
 #define PDB
 
-struct atom {
+struct pdbatom {
   int serial;
   char name[5];
   char altLoc;
@@ -38,7 +38,7 @@ struct cryst {
 struct pdb {
   struct cryst cell;
   int natom;
-  struct atom * atoms;
+  struct pdbatom * atoms;
 };
 
 struct pdb readPDB(const char * path);

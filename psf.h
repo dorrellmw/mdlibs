@@ -1,7 +1,7 @@
 #ifndef PSF
 #define PSF
 
-struct atom {
+struct psfatom {
   char seg[9];
   char resid[9];
   char res[9];
@@ -51,7 +51,7 @@ struct psf {
   int nimphi;
 
   char ** titles;
-  struct atom * atoms;
+  struct psfatom * atoms;
   struct bond * bonds;
   struct angle * angles;
   struct dihedral * dihedrals;
