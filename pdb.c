@@ -239,7 +239,8 @@ int readAtoms(FILE * pdb, struct pdb * p) {
     width=6; // Width of thirteenth field (tempFactor)
     memset(substr,'\0',15); // Clear substring buffer
     memcpy(substr,&buffer[offset],width); // isolate the tempFactor substring
-    p->atoms[n].tempFactor=atof(substr); // write tempFactor value to atom struct
+    // write tempFactor value to atom struct
+    p->atoms[n].tempFactor=atof(substr);
     offset+=width; // advance offset to next field
 
     offset+=10; // Skip ten spaces
