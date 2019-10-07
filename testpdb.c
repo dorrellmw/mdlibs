@@ -34,7 +34,7 @@ int main(int argc, const char* argv[]) {
     printf("  Standard residue sequence number: %d\n", a->resSeq);
     printf("  Nonstandard residue sequence number: %d\n", a->mresSeq);
     printf("  Insertion code: %c\n", a->iCode);
-    printf("  Atom location: (%lf,%lf,%lf)\n", a->x,a->y,a->z);
+    printf("  Atom location: ( %lf , %lf , %lf )\n", a->x,a->y,a->z);
     printf("  Occupancy: %lf\n", a->occupancy);
     printf("  Temperature factor: %lf\n", a->tempFactor);
     printf("  Element: %s\n", a->element);
