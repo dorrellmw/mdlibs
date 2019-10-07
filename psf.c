@@ -17,7 +17,7 @@
  * @param[in] bang The PSF section title, starting with an exclamation point.
  * @return The number of elements in the section.
  */
-int readBang(FILE * psf, char * bang) {
+static int readBang(FILE * psf, char * bang) {
   int nbang = -1; // in case bang count is not read successfully.
   char bufferA[1024]; // previous word
   char bufferB[1024]; // current word
@@ -44,7 +44,7 @@ int readBang(FILE * psf, char * bang) {
  * @param[in,out] p The struct into which the titles will be stored.
  * @return The number of title lines read, or -1 if an error occurs.
  */
-int readTitles(FILE * psf, struct psf * p) {
+static int readTitles(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
@@ -147,7 +147,7 @@ int readTitles(FILE * psf, struct psf * p) {
  * @param[in,out] p The struct into which the atom data will be stored.
  * @return The number of atoms read, or -1 if an error occurs.
  */
-int readAtoms(FILE * psf, struct psf * p) {
+static int readAtoms(FILE * psf, struct psf * p) {
   char buffer[1024]; // For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
@@ -301,7 +301,7 @@ int readAtoms(FILE * psf, struct psf * p) {
  * @param[in,out] p The struct into which the bond data will be stored.
  * @return The number of bonds read, or -1 if an error occurs.
  */
-int readBonds(FILE * psf, struct psf * p) {
+static int readBonds(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
@@ -359,7 +359,7 @@ int readBonds(FILE * psf, struct psf * p) {
  * @param[in,out] p The struct into which the angle data will be stored.
  * @return The number of angles read, or -1 if an error occurs.
  */
-int readAngles(FILE * psf, struct psf * p) {
+static int readAngles(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
@@ -420,7 +420,7 @@ int readAngles(FILE * psf, struct psf * p) {
  * @param[in,out] p The struct into which the dihedral data will be stored.
  * @return The number of dihedrals read, or -1 if an error occurs.
  */
-int readDihedrals(FILE * psf, struct psf * p) {
+static int readDihedrals(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 
@@ -482,7 +482,7 @@ int readDihedrals(FILE * psf, struct psf * p) {
  * @param[in,out] p The struct into which the impropers will be stored.
  * @return The number of impropers read, or -1 if an error occurs.
  */
-int readImpropers(FILE * psf, struct psf * p) {
+static int readImpropers(FILE * psf, struct psf * p) {
   char buffer[1024]; //For storing one line of the file at a time.
   char * ptr; // For detecting read failures
 

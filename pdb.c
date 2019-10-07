@@ -15,7 +15,7 @@
  * @param[in,out] p The struct into which the unit cell data will be stored.
  * @return 0 if cell data is read successfully, or -1 if an error occurs.
  */
-int readCryst(FILE * pdb, struct pdb * p) {
+static int readCryst(FILE * pdb, struct pdb * p) {
   rewind(pdb); // Start at the beginning of the file.
   char buffer[128]; // For storing one line of the file at a time.
   char * ptr; // For detecting read failures
@@ -110,7 +110,7 @@ int readCryst(FILE * pdb, struct pdb * p) {
  * @param[in,out] p The struct into which the atom data will be stored.
  * @return The number of atoms read
  */
-int readAtoms(FILE * pdb, struct pdb * p) {
+static int readAtoms(FILE * pdb, struct pdb * p) {
   rewind(pdb); // Start at the beginning of the file.
   char buffer[128]; // For storing one line of the file at a time.
   char * ptr; // For detecting read failures
