@@ -276,7 +276,8 @@ int readAtoms(FILE * pdb, struct pdb * p) {
 
     n++; // Advance atom count
   } // This loop ends upon interruption by a break statement.
-  p->atoms = realloc(p->atoms,n * sizeof(struct atom));
+  p->atoms = realloc(p->atoms,n * sizeof(struct atom)); // Trim array size
+  p->natom = n; // Store atom count in struct
   return n;
 }
 
