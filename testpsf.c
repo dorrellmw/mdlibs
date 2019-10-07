@@ -36,7 +36,7 @@ int main(int argc, const char* argv[]) {
   
     int atomnum = INT_MAX % p.natom;
     printf("Sample information for atom %d:\n", atomnum);
-    struct atom * a = &(p.atoms[atomnum]);
+    struct psfatom * a = &(p.atoms[atomnum]);
     printf("  Segment name: %s\n",a->seg);
     printf("  Residue number: %s\n",a->resid);
     printf("  Residue name: %s\n",a->res);

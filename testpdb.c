@@ -23,7 +23,7 @@ int main(int argc, const char* argv[]) {
 
     int atomnum = INT_MAX % p.natom;
     printf("Sample information for atom %d:\n", atomnum);
-    struct atom * a = &(p.atoms[atomnum]);
+    struct pdbatom * a = &(p.atoms[atomnum]);
     printf("  Standard serial number: %d\n",a->serial);
     printf("  Nonstandard serial string: %s\n", a->mserial);
     printf("  Atom name: %s\n",a->name);
