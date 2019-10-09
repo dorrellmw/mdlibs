@@ -3,7 +3,7 @@
 
 #include "dcd.h"
 
-struct DCD {
+struct dcd {
   int is_pdb;
   FILE *hdl;
   uint32_t  nframes;
@@ -17,8 +17,8 @@ struct DCD {
  * @param[in] path The path to the DCD file.
  * @return A handle to the DCD file.
  */
-struct DCD *openDCD(char *path) {
-  struct DCD *d = (struct DCD *) malloc(sizeof(struct DCD));
+struct dcd *openDCD(char *path) {
+  struct dcd *d = malloc(sizeof(struct dcd));
 
   d->hdl=fopen(path,"r");
 
@@ -38,8 +38,8 @@ struct DCD *openDCD(char *path) {
   return d;
 }
 
-struct DCD *openWritableDCD(char *path) {
-  struct DCD *d = (struct DCD *) malloc(sizeof(struct DCD));
+struct dcd *openWritableDCD(char *path) {
+  struct dcd *d = malloc(sizeof(struct dcd));
 
   d->hdl=fopen(path,"r+");
 
@@ -64,7 +64,7 @@ struct DCD *openWritableDCD(char *path) {
  *
  * @param[in] d The dcd handle.
  */
-void closeDCD(struct DCD *d) {
+void closeDCD(struct dcd *d) {
   fclose(d->hdl);
   free(d);
 }
@@ -75,7 +75,7 @@ void closeDCD(struct DCD *d) {
  * @param[in] d The dcd handle.
  * @return The number of frames in the DCD.
  */
-uint32_t getNFrames(struct DCD *d) {
+uint32_t getNFrames(struct dcd *d) {
   return d->nframes;
 }
 
@@ -88,7 +88,7 @@ uint32_t getNFrames(struct DCD *d) {
  * @param[in] d The DCD file handle
  * @param[in] f The zero-indexed frame number.
  */
-void goToFrame(struct DCD *d,uint32_t f) {
+void goToFrame(struct dcd *d,uint32_t f) {
   fseek(d->hdl,((long int) (d->offset)) + ((long int) f)*(12*((long int) (d->natoms)) + 80),SEEK_SET);
 }
 
@@ -100,7 +100,7 @@ void goToFrame(struct DCD *d,uint32_t f) {
  *
  * @param[in] d The DCD file handle
  */
-void nextFrame(struct DCD *d) {
+void nextFrame(struct dcd *d) {
   fseek(d->hdl,(12*((long int) (d->natoms)) + 80),SEEK_CUR);
 }
 
@@ -113,7 +113,7 @@ void nextFrame(struct DCD *d) {
  * @param[in] d The DCD file handle
  * @return The number of the current frame
  */
-uint32_t getFrame(struct DCD *d) {
+uint32_t getFrame(struct dcd *d) {
   return (ftell(d->hdl) - ((long int) (d->offset)))/(12*((long int) (d->natoms)) + 80);
 }
 
@@ -126,7 +126,7 @@ uint32_t getFrame(struct DCD *d) {
  * @param[in] d The DCD file handle
  * @param[out] uc The array into which the unit cell data should be placed.
  */
-void getUnitCell(struct DCD *d, double *uc) {
+void getUnitCell(struct dcd *d, double *uc) {
   fseek(d->hdl, 4, SEEK_CUR);
   assert(1==fread(&(uc[0]), 8, 1, d->hdl));
   fseek(d->hdl, 8, SEEK_CUR);
@@ -148,7 +148,7 @@ void getUnitCell(struct DCD *d, double *uc) {
  * @param[out] ys The array into which the y-coordinates should be stored.
  * @param[out] zs The array into which the z-coordinates should be stored.
  */
-void getCoords(struct DCD *d, float *xs, float *ys, float *zs) {
+void getCoords(struct dcd *d, float *xs, float *ys, float *zs) {
   fseek(d->hdl, 56, SEEK_CUR);
   fseek(d->hdl, 4, SEEK_CUR);
   assert((d->natoms)==fread(xs, 4, (d->natoms), d->hdl));
@@ -162,7 +162,7 @@ void getCoords(struct DCD *d, float *xs, float *ys, float *zs) {
   fseek(d->hdl, (-1)*(12*((long int) (d->natoms)) + 80), SEEK_CUR);
 }
 
-void writeCoords(struct DCD *d, float *xs, float *ys, float *zs) {
+void writeCoords(struct dcd *d, float *xs, float *ys, float *zs) {
   fseek(d->hdl, 56, SEEK_CUR);
   fseek(d->hdl, 4, SEEK_CUR);
   assert((d->natoms)==fwrite(xs, 4, (d->natoms), d->hdl));
